@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"image/png"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -23,6 +22,12 @@ import (
 //go:embed logo.png
 var logo []byte
 
+//go:embed bl.sources
+var blSources string
+
+//go:embed wl.sources
+var wlSources string
+
 func contains(slice []string, val string) bool {
 	for _, v := range slice {
 		if strings.Contains(val, v) {
@@ -33,12 +38,8 @@ func contains(slice []string, val string) bool {
 }
 
 func fetchblacklist(wl []string, bla []string) string {
-	dat, err := ioutil.ReadFile("bl.sources")
-	if err != nil {
-		fmt.Println("Error occured while reading blacklist file bl.sources: ", err)
-		return "error"
-	}
-	blist := strings.Split(string(dat), "\n")
+
+	blist := strings.Split(blSources, "\n")
 	blackl := ""
 	for _, cururl := range blist {
 
@@ -56,12 +57,8 @@ func fetchblacklist(wl []string, bla []string) string {
 		blackl += string(data)
 		resp.Body.Close()
 	}
-	datw, errw := ioutil.ReadFile("wl.sources")
-	if errw != nil {
-		fmt.Println("Error occured while reading blacklist file bl.sources: ", errw)
-		return "error"
-	}
-	wlist := strings.Split(string(datw), "\n")
+	wlist := strings.Split(wlSources, "\n")
+
 	whitel := ""
 	for _, cururl := range wlist {
 
@@ -137,8 +134,8 @@ func wop(wla string, bla string) {
 	}
 }
 func main() {
-	a := app.New()
-	w := a.NewWindow("Update Time")
+	a := app.NewWithID("com.github.maksydab.sadblocker")
+	w := a.NewWindow("SAd Blocker")
 
 	message := widget.NewLabel("Welcome to SAd blocker")
 	winput := widget.NewEntry()

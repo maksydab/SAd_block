@@ -7,3 +7,4 @@ this is very simple to use system wide adblocking solution that:
 
 i made it as my first go project hope you enjoy it 
 also it uses hosts file to achive what it wants
+
